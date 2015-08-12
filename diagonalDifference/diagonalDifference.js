@@ -34,7 +34,7 @@ function processData(input) {
   result = Math.abs(ULtoBRsum - BLtoURsum);
 
   // return the result
-  console.log(totalSum);
+  console.log(result);
     
 } 
 

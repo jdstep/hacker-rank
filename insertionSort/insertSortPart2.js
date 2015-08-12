@@ -12,6 +12,7 @@ function processData(input) {
       // sort the current number
       nums = sortNumber(nums, i+1);
     }
+    // print this iteration's result
     printArray(nums);
   }
 }

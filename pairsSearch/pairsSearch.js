@@ -16,28 +16,47 @@ notes: take the absolute value of the difference
 ex1)
 [1, 5, 3, 4, 2] // 3
 
+{
+  1: true,
+  5: true,
+  3: true,
+  4: true,
+  2: true
+}
+
+5 - 3 = 2
+
+
 [1, 3] // 1
 
 [4, 0] // 0
 
 */
+
+function makeNumObj(nums) {
+  var numObj = {};
+
+  nums.forEach(function(num) {
+    numObj[num] = true;
+  });
+
+  return numObj;
+}
 function processData(input) {
   var nums = getNums(input, 1);
   var targetDifference = getNums(input, 0)[1];
   var count = 0;
   var currentDifference;
+  var numObj = makeNumObj(nums);
   
   // for each num
   for (var i = 0; i < nums.length; i++) {
-    // for each remaining num
-    for (var j = i+1; j < nums.length; j++) {
-      // calculate the difference between num and remaining num
-      currentDifference = Math.abs(nums[i] - nums[j]);
-      // if the difference is the same as targetDifference
-      if (currentDifference === targetDifference) {
-        // increment the counter
-        count++;
-      }
+    // calculate the value needed to get the target difference
+    currentDifference = Math.abs(nums[i] - targetDifference);
+    // if that value needed exists in the array
+    if (numObj[currentDifference] || numObj["-"+currentDifference]) {
+      // increment the count
+      count++;
     }
   }
   

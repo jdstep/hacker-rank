@@ -26,19 +26,26 @@ ex1)
 
 5 - 3 = 2
 
+0 - 2 = 2
+
+-1 - -3 = 2
 
 [1, 3] // 1
 
 [4, 0] // 0
+
+1 - -1 = 2
+
+
 
 */
 
 function makeNumObj(nums) {
   var numObj = {};
 
-  nums.forEach(function(num) {
-    numObj[num] = true;
-  });
+  for (var i = 0; i < nums.length; i++) {
+    numObj[nums[i]] = true;
+  }
 
   return numObj;
 }
@@ -48,13 +55,12 @@ function processData(input) {
   var count = 0;
   var currentDifference;
   var numObj = makeNumObj(nums);
-  
   // for each num
   for (var i = 0; i < nums.length; i++) {
     // calculate the value needed to get the target difference
-    currentDifference = Math.abs(nums[i] - targetDifference);
+    currentDifference = nums[i] - targetDifference;
     // if that value needed exists in the array
-    if (numObj[currentDifference] || numObj["-"+currentDifference]) {
+    if (numObj[currentDifference]) {
       // increment the count
       count++;
     }

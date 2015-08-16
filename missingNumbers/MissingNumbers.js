@@ -1,7 +1,6 @@
 function getNums(array, index) {
   index = index || 0;
   var result = array.split('\n')[index].split(' ').map(function(numberStr) { return parseInt(numberStr);});
-  console.log(result);
   return result;
 }
 

@@ -4,88 +4,53 @@ function getNums(array, index) {
   return result;
 }
 
-function countOccurances(array, occurancesIndex, occurancesObj) {
-  var num;
-  var result = occurancesObj || {};
-  // for each number in the array
-  for (var i = 0; i < array.length; i++) {
-    // store the current number
-    num = array[i];
-    // if this is the first time we have seen the number, create an empty array
-    result[num] = result[num] || [];
-    // if we have seen this number before
-    if (result[num][occurancesIndex]) {
-      // increment that number's counter at the specified index
-      result[num][occurancesIndex] += 1;
-    } // else if we have not seen this number before
-    else {
-      // set that counter to 1 at the specificed index
-      result[num][occurancesIndex] = 1;
+var quickSort = function(array, start, end) {
+  var pivotIndex;
+  // if the divided array has 1 or more elements
+  if (end - start >= 1) {
+    // partition the pivot index to its sorted location
+    // and get the pivot index
+    pivotIndex = partition(array, start, end);
+    // sort the array to the left of the pivot
+    quickSort(array, start, pivotIndex - 1);
+    // sort the array to the right of the pivot
+    quickSort(array, pivotIndex+1, end);
+  }
+};
+
+// in-place swap of an array given the array and two indicies
+var swap = function(array, indexA, indexB) {
+  var tmp = array[indexA];
+  array[indexA] = array[indexB];
+  array[indexB] = tmp;
+};
+
+var partition = function(array, start, end) {
+  // set the pivot to the end index
+  var pivotValue  = array[end];
+  // i keeps track of the index for values lower than the pivot
+  // and eventually becomes in the index for the pivot
+  var i = start - 1;
+  // from the start index until the index before the pivot
+  for (var j = start; j < end; j++) {
+    // if the current value is less or equal to the pivot
+    if (array[j] <= pivotValue) {
+      // increment the tracker for values lower than the pivot
+      i++;
+      // swap the lower index value with the value at the current index
+      swap(array, i, j)
     }
   }
-  // return the 
-  return result;
-}
-
-function insertionSort (ar) {
-  // for each element starting at the 2nd element
-  for(i = 1; i < ar.length; i++){
-    // store the current value
-    var value = ar[i];
-    // get the previous index
-    var j = i - 1;
-    // while the previous index is larger than the current value
-    while(ar[j] > value){
-      // copy the previous index into the current index
-      ar[j + 1] = ar[j];
-      // decrement the previous index
-      j = j - 1;
-    }
-    // store the current value in the decremented index
-    ar[j + 1] = value;
-  }
-  // return the sorted array
-  return ar;
-}
-
-function findMissingNums(numObj) {
-  var result = [];
-  var curentOccurances;
-  // for each number key
-  for (var num in numObj) {
-    // set the current number of occurances to the first element
-    currentOccurances = numObj[num][0];
-    // for each remaining number of occurances
-    for (var i = 1; i < numObj[num].length; i++) {
-      // if that number of occurances is different than the first element
-      if (currentOccurances !== numObj[num][i]) {
-        // store that number of the result array
-        result.push(parseInt(num));
-      }
-    }
-  }
-  // return the numbers that occur an unequal number of times
-  return result;
-}
-
-function processData(shortList, longList) {
-// function processData(input) { // for use in hacker rank
-  // var shortList = getNums(input, 3); // for use in hacker rank
-  // var longList = getNums(input, 1); // for use in hacker rank
-  var numOccurances = {};
-  var result = [];
-  var sortedResult = [];
-
-  numOccurances = countOccurances(shortList, 0, numOccurances);
-  numOccurances = countOccurances(longList, 1, numOccurances);
+  // increment the lower index to be one higher than the low numbers
+  // this is the new pivot index
+  i++
+  // swap the pivot at the end to its correct sorted location
+  swap(array, i, end);
+  // return the index of the sorted pivot
   
-  result = findMissingNums(numOccurances);
-  sortedResult = insertionSort(result);
-  console.log(sortedResult);
-  // printArray(sorrtedResult); // for use in hacker rank
-  return sortedResult;
-} 
-
+  printArray(array);
+  return i;
+}
 
 function printArray(array, printNewLine) {
   var arrString = "";
@@ -97,11 +62,11 @@ function printArray(array, printNewLine) {
   console.log(arrString);
 }
 
-/*
-
-NOTE: This Hacker Rank challenge is broken as of this writing
-I tested this with custom inputs and changing the primary function's arguments
-
+function processData(input) {
+    //Enter your code here
+  var nums = getNums(input, 1);
+  quickSort(nums, 0, nums.length - 1);
+} 
 
 process.stdin.resume();
 process.stdin.setEncoding("ascii");
@@ -113,10 +78,3 @@ process.stdin.on("data", function (input) {
 process.stdin.on("end", function () {
    processData(_input);
 });
-
-*/
-
-// var arr1 = [203, 204, 205, 206, 207, 208, 203, 204, 205, 206];
-// var arr2 = [203, 204, 204, 205, 206, 207, 205, 208, 203, 206, 205, 206, 204];
-
-// processData(arr1, arr2); // [204, 205, 206]
